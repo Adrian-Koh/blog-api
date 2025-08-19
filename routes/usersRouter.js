@@ -1,22 +1,20 @@
 const { Router } = require("express");
 const usersRouter = Router();
-
+const passport = require("passport");
 const usersController = require("../controllers/usersController");
 
-usersRouter.get("/login", (req, res, next) => {
-  res.send("GET login");
-});
+usersRouter.get("/login", usersController.loginGet);
 
-usersRouter.post("/login", (req, res, next) => {
-  res.send("POST login");
-});
+usersRouter.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/failed-auth", // todo: failure redirect page on frontend
+    successRedirect: "/",
+  })
+);
 
-usersRouter.get("/signup", (req, res, next) => {
-  res.send("GET signup");
-});
+usersRouter.get("/signup", usersController.signupGet);
 
-usersRouter.post("/signup", (req, res, next) => {
-  res.send("POST signup");
-});
+usersRouter.post("/signup", usersController.signupPost);
 
 module.exports = usersRouter;
