@@ -15,17 +15,6 @@ postsRouter.post("/", verifyToken, postsController.postsPost);
 
 postsRouter.put("/:postId", verifyToken, postsController.postsPut);
 
-postsRouter.delete("/:postId", verifyToken, (req, res, next) => {
-  jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
-    if (err) {
-      next(err);
-    } else {
-      const { postId } = req.params;
-      res.json({
-        message: "DELETE post id " + postId,
-      });
-    }
-  });
-});
+postsRouter.delete("/:postId", verifyToken, postsController.postsDelete);
 
 module.exports = postsRouter;

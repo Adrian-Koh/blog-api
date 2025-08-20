@@ -1,5 +1,10 @@
 const jwt = require("jsonwebtoken");
-const { addPost, getPostById, updatePost } = require("../lib/prismaClient");
+const {
+  addPost,
+  getPostById,
+  updatePost,
+  deletePost,
+} = require("../lib/prismaClient");
 
 function postsIdGet(req, res, next) {
   const { postId } = req.params;
@@ -48,4 +53,19 @@ function postsPut(req, res, next) {
   });
 }
 
-module.exports = { postsIdGet, postsPost, postsPut };
+function postsDelete(req, res, next) {
+  jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+    if (err) {
+      next(err);
+    } else {
+      const { postId } = req.params;
+      deletePost(postId)
+        .then((post) => {
+          res.json({ post });
+        })
+        .catch((err) => next(err));
+    }
+  });
+}
+
+module.exports = { postsIdGet, postsPost, postsPut, postsDelete };
