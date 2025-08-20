@@ -3,10 +3,7 @@ const commentsRouter = Router();
 
 const commentsController = require("../controllers/commentsController");
 
-commentsRouter.get("/:postId/comments", (req, res, next) => {
-  const { postId } = req.params;
-  res.send("GET all comments from post " + postId);
-});
+commentsRouter.get("/:postId/comments", commentsController.allCommentsGet);
 
 commentsRouter.get("/:postId/comments/:commentId", (req, res, next) => {
   const { postId, commentId } = req.params;
