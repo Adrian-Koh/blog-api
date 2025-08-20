@@ -5,9 +5,7 @@ const { verifyToken } = require("../lib/jwtUtils");
 
 const postsController = require("../controllers/postsController");
 
-postsRouter.get("/", (req, res, next) => {
-  res.send("GET all posts");
-});
+postsRouter.get("/", postsController.postsGet);
 
 postsRouter.get("/:postId", postsController.postsIdGet);
 

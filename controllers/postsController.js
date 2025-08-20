@@ -1,10 +1,19 @@
 const jwt = require("jsonwebtoken");
 const {
-  addPost,
+  getAllPosts,
   getPostById,
+  addPost,
   updatePost,
   deletePost,
 } = require("../lib/prismaClient");
+
+function postsGet(req, res, next) {
+  getAllPosts()
+    .then((posts) => {
+      res.json({ posts });
+    })
+    .catch((err) => next(err));
+}
 
 function postsIdGet(req, res, next) {
   const { postId } = req.params;
@@ -68,4 +77,4 @@ function postsDelete(req, res, next) {
   });
 }
 
-module.exports = { postsIdGet, postsPost, postsPut, postsDelete };
+module.exports = { postsGet, postsIdGet, postsPost, postsPut, postsDelete };
