@@ -42,8 +42,21 @@ async function addComment(userId, postId, text, addedTime = new Date()) {
   }
 }
 
-async function editComment() {}
+async function editComment(commentId, text, editedTime = new Date()) {
+  try {
+    const comment = await prisma.comment.update({
+      where: { id: Number(commentId) },
+      data: {
+        text: text,
+        editedTime: editedTime,
+      },
+    });
+    return comment;
+  } catch (err) {
+    throw err;
+  }
+}
 
 async function deleteComment() {}
 
-module.exports = { getAllComments, getComment, addComment };
+module.exports = { getAllComments, getComment, addComment, editComment };

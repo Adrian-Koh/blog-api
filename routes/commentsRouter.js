@@ -17,10 +17,11 @@ commentsRouter.post(
   commentsController.commentPost
 );
 
-commentsRouter.put("/:postId/comments/:commentId", (req, res, next) => {
-  const { postId, commentId } = req.params;
-  res.send("PUT post id " + postId + " comment id " + commentId);
-});
+commentsRouter.put(
+  "/:postId/comments/:commentId",
+  verifyToken,
+  commentsController.commentPut
+);
 
 commentsRouter.delete("/:postId/comments/:commentId", (req, res, next) => {
   const { postId, commentId } = req.params;

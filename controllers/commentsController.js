@@ -39,4 +39,22 @@ function commentPost(req, res, next) {
   });
 }
 
-module.exports = { allCommentsGet, commentGet, commentPost };
+function commentPut(req, res, next) {
+  jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+    if (err) {
+      next(err);
+    } else {
+      const { commentId } = req.params;
+      const { comment } = req.body;
+      const editedTime = new Date();
+      commentsQueries
+        .editComment(commentId, comment, editedTime)
+        .then((comment) => {
+          res.json({ comment });
+        })
+        .catch((err) => next(err));
+    }
+  });
+}
+
+module.exports = { allCommentsGet, commentGet, commentPost, commentPut };
