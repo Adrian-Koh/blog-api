@@ -23,7 +23,7 @@ async function getPostById(postId) {
 }
 
 async function addPost(
-  userid,
+  userId,
   title,
   text,
   addedTime = new Date(),
@@ -35,7 +35,7 @@ async function addPost(
         title: title,
         text: text,
         addedTime: addedTime,
-        userId: Number(userid),
+        userId: Number(userId),
         isPublished: Boolean(publish),
       },
     });

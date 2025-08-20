@@ -1,19 +1,21 @@
 const { Router } = require("express");
 const commentsRouter = Router();
+const { verifyToken } = require("../lib/jwtUtils");
 
 const commentsController = require("../controllers/commentsController");
 
 commentsRouter.get("/:postId/comments", commentsController.allCommentsGet);
 
-commentsRouter.get("/:postId/comments/:commentId", (req, res, next) => {
-  const { postId, commentId } = req.params;
-  res.send("GET post id " + postId + " comment id " + commentId);
-});
+commentsRouter.get(
+  "/:postId/comments/:commentId",
+  commentsController.commentGet
+);
 
-commentsRouter.post("/:postId/comments/:commentId", (req, res, next) => {
-  const { postId, commentId } = req.params;
-  res.send("POST post id " + postId + " comment id " + commentId);
-});
+commentsRouter.post(
+  "/:postId/comments/",
+  verifyToken,
+  commentsController.commentPost
+);
 
 commentsRouter.put("/:postId/comments/:commentId", (req, res, next) => {
   const { postId, commentId } = req.params;

@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const postsRouter = Router();
-const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../lib/jwtUtils");
 
 const postsController = require("../controllers/postsController");
