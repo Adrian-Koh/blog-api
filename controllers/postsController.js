@@ -10,6 +10,23 @@ function postsGet(req, res, next) {
     .catch((err) => next(err));
 }
 
+function userPostsGet(req, res, next) {
+  jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+    if (err) {
+      next(err);
+    } else {
+      postsQueries
+        .getAllUserPosts(authData.user.id)
+        .then((posts) => {
+          res.json({
+            posts,
+          });
+        })
+        .catch((err) => next(err));
+    }
+  });
+}
+
 function postsIdGet(req, res, next) {
   const { postId } = req.params;
   postsQueries
@@ -77,4 +94,11 @@ function postsDelete(req, res, next) {
   });
 }
 
-module.exports = { postsGet, postsIdGet, postsPost, postsPut, postsDelete };
+module.exports = {
+  postsGet,
+  userPostsGet,
+  postsIdGet,
+  postsPost,
+  postsPut,
+  postsDelete,
+};

@@ -6,6 +6,8 @@ const postsController = require("../controllers/postsController");
 
 postsRouter.get("/", postsController.postsGet);
 
+postsRouter.get("/user", verifyToken, postsController.userPostsGet);
+
 postsRouter.get("/:postId", postsController.postsIdGet);
 
 postsRouter.post("/", verifyToken, postsController.postsPost);

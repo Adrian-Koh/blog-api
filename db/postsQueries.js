@@ -9,6 +9,19 @@ async function getAllPosts() {
   }
 }
 
+async function getAllUserPosts(userId) {
+  try {
+    const posts = await prisma.post.findMany({
+      where: {
+        userId: Number(userId),
+      },
+    });
+    return posts;
+  } catch (err) {
+    throw err;
+  }
+}
+
 async function getPostById(postId) {
   try {
     const post = await prisma.post.findUnique({
@@ -83,4 +96,11 @@ async function deletePost(postId) {
   }
 }
 
-module.exports = { getAllPosts, getPostById, addPost, updatePost, deletePost };
+module.exports = {
+  getAllPosts,
+  getAllUserPosts,
+  getPostById,
+  addPost,
+  updatePost,
+  deletePost,
+};
