@@ -57,6 +57,21 @@ async function editComment(commentId, text, editedTime = new Date()) {
   }
 }
 
-async function deleteComment() {}
+async function deleteComment(commentId) {
+  try {
+    const comment = await prisma.comment.delete({
+      where: { id: Number(commentId) },
+    });
+    return comment;
+  } catch (err) {
+    throw err;
+  }
+}
 
-module.exports = { getAllComments, getComment, addComment, editComment };
+module.exports = {
+  getAllComments,
+  getComment,
+  addComment,
+  editComment,
+  deleteComment,
+};

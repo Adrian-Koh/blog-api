@@ -23,9 +23,10 @@ commentsRouter.put(
   commentsController.commentPut
 );
 
-commentsRouter.delete("/:postId/comments/:commentId", (req, res, next) => {
-  const { postId, commentId } = req.params;
-  res.send("DELETE post id " + postId + " comment id " + commentId);
-});
+commentsRouter.delete(
+  "/:postId/comments/:commentId",
+  verifyToken,
+  commentsController.commentDelete
+);
 
 module.exports = commentsRouter;

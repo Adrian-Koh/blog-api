@@ -72,6 +72,7 @@ function postsDelete(req, res, next) {
           res.json({ post });
         })
         .catch((err) => next(err));
+      // TODO: delete comments
     }
   });
 }

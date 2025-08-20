@@ -57,4 +57,26 @@ function commentPut(req, res, next) {
   });
 }
 
-module.exports = { allCommentsGet, commentGet, commentPost, commentPut };
+function commentDelete(req, res, next) {
+  jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+    if (err) {
+      next(err);
+    } else {
+      const { commentId } = req.params;
+      commentsQueries
+        .deleteComment(commentId)
+        .then((comment) => {
+          res.json({ comment });
+        })
+        .catch((err) => next(err));
+    }
+  });
+}
+
+module.exports = {
+  allCommentsGet,
+  commentGet,
+  commentPost,
+  commentPut,
+  commentDelete,
+};
