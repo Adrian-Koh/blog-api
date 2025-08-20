@@ -1,14 +1,9 @@
 const jwt = require("jsonwebtoken");
-const {
-  getAllPosts,
-  getPostById,
-  addPost,
-  updatePost,
-  deletePost,
-} = require("../lib/prismaClient");
+const postsQueries = require("../db/postsQueries");
 
 function postsGet(req, res, next) {
-  getAllPosts()
+  postsQueries
+    .getAllPosts()
     .then((posts) => {
       res.json({ posts });
     })
@@ -17,7 +12,8 @@ function postsGet(req, res, next) {
 
 function postsIdGet(req, res, next) {
   const { postId } = req.params;
-  getPostById(postId)
+  postsQueries
+    .getPostById(postId)
     .then((post) => {
       res.json({
         post,
@@ -34,7 +30,8 @@ function postsPost(req, res, next) {
       const { title, text, publish } = req.body;
       const addedTime = new Date();
 
-      addPost(authData.user.id, title, text, addedTime, publish)
+      postsQueries
+        .addPost(authData.user.id, title, text, addedTime, publish)
         .then((post) => {
           res.json({
             post,
@@ -53,7 +50,8 @@ function postsPut(req, res, next) {
       const { postId } = req.params;
       const { title, text, publish } = req.body;
       const editedTime = new Date();
-      updatePost(postId, title, text, editedTime, publish)
+      postsQueries
+        .updatePost(postId, title, text, editedTime, publish)
         .then((post) => {
           res.json({ post });
         })
@@ -68,7 +66,8 @@ function postsDelete(req, res, next) {
       next(err);
     } else {
       const { postId } = req.params;
-      deletePost(postId)
+      postsQueries
+        .deletePost(postId)
         .then((post) => {
           res.json({ post });
         })

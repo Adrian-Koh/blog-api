@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { addUser, getUserByUsername } = require("../lib/prismaClient");
+const usersQueries = require("../db/usersQueries");
 const { generatePasswordHash, validPassword } = require("../lib/passwordUtils");
 require("dotenv").config();
 
@@ -10,7 +10,8 @@ async function loginGet(req, res, next) {
 
 function loginPost(req, res, next) {
   const { username, password } = req.body;
-  getUserByUsername(username)
+  usersQueries
+    .getUserByUsername(username)
     .then((user) => {
       if (validPassword(password, user.passwordHash)) {
         jwt.sign(
@@ -41,7 +42,8 @@ async function signupGet(req, res, next) {
 function signupPost(req, res, next) {
   const { username, password } = req.body;
   const passwordHash = generatePasswordHash(password);
-  addUser(username, passwordHash)
+  usersQueries
+    .addUser(username, passwordHash)
     .then((user) => {
       res.json({
         message: "signup success",
