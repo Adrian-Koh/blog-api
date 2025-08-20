@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 require("dotenv").config();
 
@@ -6,6 +7,7 @@ const usersRouter = require("./routes/usersRouter");
 const postsRouter = require("./routes/postsRouter");
 const commentsRouter = require("./routes/commentsRouter");
 
+app.use(cors()); // TODO: update to only frontend origin
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
