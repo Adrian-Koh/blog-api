@@ -49,7 +49,7 @@ function signupPost(req, res, next) {
         message: "signup success",
         user,
       });
-      //res.redirect("/users/login");
+      res.redirect("/login");
     })
     .catch((err) => {
       next(err);

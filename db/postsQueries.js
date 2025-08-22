@@ -83,6 +83,22 @@ async function updatePost(
   }
 }
 
+async function publishPost(postId, publish) {
+  try {
+    const post = await prisma.post.update({
+      where: {
+        id: Number(postId),
+      },
+      data: {
+        isPublished: Boolean(publish),
+      },
+    });
+    return post;
+  } catch (err) {
+    throw err;
+  }
+}
+
 async function deletePost(postId) {
   try {
     const post = await prisma.post.delete({
@@ -102,5 +118,6 @@ module.exports = {
   getPostById,
   addPost,
   updatePost,
+  publishPost,
   deletePost,
 };

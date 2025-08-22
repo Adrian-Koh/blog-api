@@ -20,6 +20,7 @@ function userPostsGet(req, res, next) {
         .then((posts) => {
           res.json({
             posts,
+            user: authData.user,
           });
         })
         .catch((err) => next(err));
@@ -65,14 +66,31 @@ function postsPut(req, res, next) {
       next(err);
     } else {
       const { postId } = req.params;
-      const { title, text, publish } = req.body;
-      const editedTime = new Date();
-      postsQueries
-        .updatePost(postId, title, text, editedTime, publish)
-        .then((post) => {
-          res.json({ post });
-        })
-        .catch((err) => next(err));
+
+      if (
+        typeof req.body.title !== "undefined" &&
+        typeof req.body.text !== "undefined" &&
+        typeof req.body.publish !== "undefined"
+      ) {
+        // edit post
+        const { title, text, publish } = req.body;
+        const editedTime = new Date();
+        postsQueries
+          .updatePost(postId, title, text, editedTime, publish)
+          .then((post) => {
+            res.json({ post });
+          })
+          .catch((err) => next(err));
+      } else if (typeof req.body.publish !== "undefined") {
+        // publish/unpublish post
+        const { publish } = req.body;
+        postsQueries
+          .publishPost(postId, publish)
+          .then((post) => {
+            res.json({ post });
+          })
+          .catch((err) => next(err));
+      }
     }
   });
 }

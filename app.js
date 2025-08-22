@@ -11,11 +11,6 @@ app.use(cors()); // TODO: update to only frontend origin
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  console.log(req.user);
-  next();
-});
-
 app.get("/", (req, res) => res.send("Hello world"));
 
 app.use("/users", usersRouter);
