@@ -3,7 +3,7 @@ const postsQueries = require("../db/postsQueries");
 
 function postsGet(req, res, next) {
   postsQueries
-    .getAllPosts()
+    .getAllPublishedPosts()
     .then((posts) => {
       res.json({ posts });
     })

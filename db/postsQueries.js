@@ -1,8 +1,12 @@
 const prisma = require("./prisma");
 
-async function getAllPosts() {
+async function getAllPublishedPosts() {
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      where: {
+        isPublished: true,
+      },
+    });
     return posts;
   } catch (err) {
     throw err;
@@ -113,7 +117,7 @@ async function deletePost(postId) {
 }
 
 module.exports = {
-  getAllPosts,
+  getAllPublishedPosts,
   getAllUserPosts,
   getPostById,
   addPost,
