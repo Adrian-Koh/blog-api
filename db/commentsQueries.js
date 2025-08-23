@@ -6,6 +6,9 @@ async function getAllComments(postId) {
       where: {
         postId: Number(postId),
       },
+      include: {
+        user: true,
+      },
     });
     return comments;
   } catch (err) {
