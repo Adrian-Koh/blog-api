@@ -22,6 +22,9 @@ async function getComment(commentId) {
       where: {
         id: Number(commentId),
       },
+      include: {
+        user: true,
+      },
     });
     return comment;
   } catch (err) {
