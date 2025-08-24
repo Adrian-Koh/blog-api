@@ -6,6 +6,9 @@ async function getAllPublishedPosts() {
       where: {
         isPublished: true,
       },
+      include: {
+        user: true,
+      },
     });
     return posts;
   } catch (err) {
